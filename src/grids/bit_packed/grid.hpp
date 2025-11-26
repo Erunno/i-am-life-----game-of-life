@@ -24,15 +24,18 @@ class grid {
     using cell_t = gol::grids::common::basic_cell_t;
 
     grid(index_t x_size_logical, index_t y_size_logical)
-        : x_size_physical_(x_size_logical / tile_x_size),
-          y_size_physical_(y_size_logical / tile_y_size) {}
+        : indexer_(x_size_logical / tile_x_size, y_size_logical / tile_y_size),
+          tiles_of_cells_(
+              indexer_.memory_size(x_size_logical / tile_x_size, y_size_logical / tile_y_size), 0) {
+    }
 
     grid_size logical() const {
-        return {x_size_physical_ * tile_x_size, y_size_physical_ * tile_y_size};
+        auto [x_size_physical, y_size_physical] = indexer_.physical();
+        return {x_size_physical * tile_x_size, y_size_physical * tile_y_size};
     }
 
     grid_size physical() const {
-        return {x_size_physical_, y_size_physical_};
+        return indexer_.physical();
     }
 
     cell_t get(index_t x, index_t y) {
@@ -62,17 +65,17 @@ class grid {
     }
 
     store_int_t get_physical(index_t tile_x, index_t tile_y) const {
-        const index_t tile_index = border_policy_.idx(tile_x, tile_y);
+        const index_t tile_index = indexer_.idx(tile_x, tile_y);
         return tiles_of_cells_.at(tile_index);
     }
 
     store_int_t& physical_at(index_t tile_x, index_t tile_y) {
-        const index_t tile_index = border_policy_.idx(tile_x, tile_y);
+        const index_t tile_index = indexer_.idx(tile_x, tile_y);
         return tiles_of_cells_.at(tile_index);
     }
 
     void set_physical(index_t tile_x, index_t tile_y, store_int_t value) {
-        const index_t tile_index = border_policy_.idx(tile_x, tile_y);
+        const index_t tile_index = indexer_.idx(tile_x, tile_y);
         tiles_of_cells_.at(tile_index) = value;
     }
 
@@ -83,9 +86,7 @@ class grid {
         return physical_at(tile_x, tile_y);
     }
 
-    index_t x_size_physical_;
-    index_t y_size_physical_;
-    border_policy border_policy_;
+    border_policy indexer_;
     memory_wrapper<store_int_t, device_type> tiles_of_cells_;
 };
 
