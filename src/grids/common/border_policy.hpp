@@ -11,21 +11,22 @@ struct padded_with_zeros_policy {
         return (x_size + 2) * (y_size + 2);
     }
 
-    padded_with_zeros_policy(index_t x_size, index_t y_size) : x_size_(x_size), y_size_(y_size) {}
+    constexpr padded_with_zeros_policy(index_t x_size, index_t y_size)
+        : x_size_(x_size), y_size_(y_size) {}
 
-    index_t idx(index_t x, index_t y) {
+    constexpr index_t idx(index_t x, index_t y) const {
         return (y + 1) * (x_size_ + 2) + (x + 1);
     }
 
-    grid_size physical() const {
+    constexpr grid_size physical() const {
         return {x_size_ + 2, y_size_ + 2};
     }
 
-    grid_size logical() const {
+    constexpr grid_size logical() const {
         return {x_size_, y_size_};
     }
 
-    index_t memory_size() const {
+    constexpr index_t memory_size() const {
         return (x_size_ + 2) * (y_size_ + 2);
     }
 
@@ -39,23 +40,24 @@ struct wrapped_around_policy {
         return x_size * y_size;
     }
 
-    wrapped_around_policy(index_t x_size, index_t y_size) : x_size_(x_size), y_size_(y_size) {}
+    constexpr wrapped_around_policy(index_t x_size, index_t y_size)
+        : x_size_(x_size), y_size_(y_size) {}
 
-    index_t idx(index_t x, index_t y) const {
+    constexpr index_t idx(index_t x, index_t y) const {
         index_t wrapped_x = (x + x_size_) % x_size_;
         index_t wrapped_y = (y + y_size_) % y_size_;
         return wrapped_y * x_size_ + wrapped_x;
     }
 
-    grid_size physical() const {
+    constexpr grid_size physical() const {
         return {x_size_, y_size_};
     }
 
-    grid_size logical() const {
+    constexpr grid_size logical() const {
         return {x_size_, y_size_};
     }
 
-    index_t memory_size() const {
+    constexpr index_t memory_size() const {
         return x_size_ * y_size_;
     }
 

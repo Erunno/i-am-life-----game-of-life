@@ -5,9 +5,9 @@ project(GameOfLife VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-file(GLOB_RECURSE MY_SOURCES 
+file(GLOB_RECURSE MY_SOURCES
     CONFIGURE_DEPENDS
-    "*.cpp" 
+    "*.cpp"
     "*.hpp"
 )
 

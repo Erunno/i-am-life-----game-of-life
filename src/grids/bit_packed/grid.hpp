@@ -38,7 +38,7 @@ class grid {
         return indexer_.physical();
     }
 
-    cell_t get(index_t x, index_t y) {
+    cell_t get(index_t x, index_t y) const {
         const index_t within_tile_x = x % tile_x_size;
         const index_t within_tile_y = y % tile_y_size;
 
