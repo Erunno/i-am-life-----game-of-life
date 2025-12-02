@@ -1,8 +1,7 @@
 #pragma once
 
-#include <vector>
-
 #include "common/bits.hpp"
+#include "common/device.hpp"
 #include "grids/common/memory_wrapper.hpp"
 #include "grids/common/types.hpp"
 
@@ -29,22 +28,25 @@ class grid {
               indexer_.memory_size(x_size_logical / tile_x_size, y_size_logical / tile_y_size), 0) {
     }
 
+    [[nodiscard]]
     grid_size logical() const {
         auto [x_size_physical, y_size_physical] = indexer_.physical();
         return {x_size_physical * tile_x_size, y_size_physical * tile_y_size};
     }
 
+    [[nodiscard]]
     grid_size physical() const {
         return indexer_.physical();
     }
 
+    [[nodiscard]]
     cell_t get(index_t x, index_t y) const {
         const index_t within_tile_x = x % tile_x_size;
         const index_t within_tile_y = y % tile_y_size;
 
         const index_t bit_index = within_tile_y * tile_x_size + within_tile_x;
 
-        const store_int_t tile = physical_at__from_logical_coords(x, y);
+        const store_int_t tile = physical_at_from_logical_coords(x, y);
 
         return (tile >> bit_index) & 1;
     }
@@ -55,20 +57,22 @@ class grid {
 
         const index_t bit_index = within_tile_y * tile_x_size + within_tile_x;
 
-        store_int_t& tile = physical_at__from_logical_coords(x, y);
+        store_int_t& tile = physical_at_from_logical_coords(x, y);
 
-        if (value) {
+        if (value != 0) {
             tile |= (store_int_t(1) << bit_index);
         } else {
             tile &= ~(store_int_t(1) << bit_index);
         }
     }
 
+    [[nodiscard]]
     store_int_t get_physical(index_t tile_x, index_t tile_y) const {
         const index_t tile_index = indexer_.idx(tile_x, tile_y);
         return tiles_of_cells_.at(tile_index);
     }
 
+    [[nodiscard]]
     store_int_t& physical_at(index_t tile_x, index_t tile_y) {
         const index_t tile_index = indexer_.idx(tile_x, tile_y);
         return tiles_of_cells_.at(tile_index);
@@ -80,7 +84,8 @@ class grid {
     }
 
    private:
-    store_int_t& physical_at__from_logical_coords(index_t x, index_t y) {
+    [[nodiscard]]
+    store_int_t& physical_at_from_logical_coords(index_t x, index_t y) {
         const index_t tile_x = x / tile_x_size;
         const index_t tile_y = y / tile_y_size;
         return physical_at(tile_x, tile_y);

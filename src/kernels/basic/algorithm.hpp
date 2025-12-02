@@ -1,7 +1,5 @@
 #pragma once
 
-#include "common/device.hpp"
-#include "grids/basic/grid.hpp"
 #include "grids/common/types.hpp"
 
 namespace gol::kernels::cpu::basic {

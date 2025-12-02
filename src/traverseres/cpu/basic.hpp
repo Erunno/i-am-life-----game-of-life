@@ -3,8 +3,8 @@
 #include <memory>
 #include <utility>
 
+#include "common/device.hpp"
 #include "common/timers.hpp"
-#include "grids/basic/grid.hpp"
 #include "grids/common/types.hpp"
 
 namespace gol::traverseres::cpu::basic {
@@ -19,8 +19,6 @@ class traverser {
 
     using cpu_grid_ptr = std::unique_ptr<cpu_grid_t>;
     using index_t = gol::grids::common::index_t;
-
-    traverser() = default;
 
     void initialize(const grid_t& input_grid, index_t iterations) {
         input_grid_ = input_grid.clone_to_cpu_memory();
@@ -59,11 +57,11 @@ class traverser {
    private:
     using timer_cpu = gol::common::cpu_timer;
 
-    double run_time_ms_;
-    index_t iterations_;
+    double run_time_ms_ = 0.0;
+    index_t iterations_ = 0;
 
-    cpu_grid_ptr input_grid_;
-    cpu_grid_ptr intermidiate_grid_;
+    cpu_grid_ptr input_grid_ = nullptr;
+    cpu_grid_ptr intermidiate_grid_ = nullptr;
 };
 
 }  // namespace gol::traverseres::cpu::basic

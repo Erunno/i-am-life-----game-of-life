@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <vector>
 
 #include "common/device.hpp"
@@ -15,12 +16,13 @@ template <typename item_t>
 class memory_wrapper<item_t, device::CPU> {
    public:
     memory_wrapper(std::size_t size, item_t initial_value) : data_(size, initial_value) {}
-    ~memory_wrapper() = default;  // TODO: why explicit destructor needed?
 
+    [[nodiscard]]
     item_t& at(std::size_t index) {
         return data_.at(index);  // TODO: why at?
     }
 
+    [[nodiscard]]
     const item_t& at(std::size_t index) const {
         return data_.at(index);  // TODO: why at?
     }

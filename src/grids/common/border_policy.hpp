@@ -8,24 +8,28 @@ namespace gol::grids::common {
 
 struct padded_with_zeros_policy {
     static constexpr std::size_t memory_size(index_t x_size, index_t y_size) {
-        return (x_size + 2) * (y_size + 2);
+        return (static_cast<std::size_t>(x_size) + 2) * (static_cast<std::size_t>(y_size) + 2);
     }
 
     constexpr padded_with_zeros_policy(index_t x_size, index_t y_size)
         : x_size_(x_size), y_size_(y_size) {}
 
+    [[nodiscard]]
     constexpr index_t idx(index_t x, index_t y) const {
         return (y + 1) * (x_size_ + 2) + (x + 1);
     }
 
+    [[nodiscard]]
     constexpr grid_size physical() const {
         return {x_size_ + 2, y_size_ + 2};
     }
 
+    [[nodiscard]]
     constexpr grid_size logical() const {
         return {x_size_, y_size_};
     }
 
+    [[nodiscard]]
     constexpr index_t memory_size() const {
         return (x_size_ + 2) * (y_size_ + 2);
     }
@@ -37,28 +41,32 @@ struct padded_with_zeros_policy {
 
 struct wrapped_around_policy {
     static constexpr std::size_t memory_size(index_t x_size, index_t y_size) {
-        return x_size * y_size;
+        return static_cast<std::size_t>(x_size) * static_cast<std::size_t>(y_size);
     }
 
     constexpr wrapped_around_policy(index_t x_size, index_t y_size)
         : x_size_(x_size), y_size_(y_size) {}
 
+    [[nodiscard]]
     constexpr index_t idx(index_t x, index_t y) const {
-        index_t wrapped_x = (x + x_size_) % x_size_;
-        index_t wrapped_y = (y + y_size_) % y_size_;
+        const index_t wrapped_x = (x + x_size_) % x_size_;
+        const index_t wrapped_y = (y + y_size_) % y_size_;
         return wrapped_y * x_size_ + wrapped_x;
     }
 
+    [[nodiscard]]
     constexpr grid_size physical() const {
         return {x_size_, y_size_};
     }
 
+    [[nodiscard]]
     constexpr grid_size logical() const {
         return {x_size_, y_size_};
     }
 
-    constexpr index_t memory_size() const {
-        return x_size_ * y_size_;
+    [[nodiscard]]
+    constexpr std::size_t memory_size() const {
+        return static_cast<std::size_t>(x_size_) * static_cast<std::size_t>(y_size_);
     }
 
    private:

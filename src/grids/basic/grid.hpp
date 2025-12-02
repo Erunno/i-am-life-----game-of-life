@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <vector>
 
 #include "common/device.hpp"
 #include "grids/common/memory_wrapper.hpp"
@@ -37,6 +36,7 @@ class grid {
         return cells_.at(idx);
     }
 
+    [[nodiscard]]
     cell_t get(index_t x, index_t y) const {
         auto idx = indexer_.idx(x, y);
         return cells_.at(idx);
@@ -47,18 +47,22 @@ class grid {
         cells_.at(idx) = value;
     }
 
+    [[nodiscard]]
     grid_size logical() const {
         return indexer_.logical();
     }
 
+    [[nodiscard]]
     grid_size physical() const {
         return indexer_.physical();
     }
 
+    [[nodiscard]]
     cell_t get_physical(index_t x, index_t y) const {
         return get(x, y);
     }
 
+    [[nodiscard]]
     cell_t& physical_at(index_t x, index_t y) {
         return at(x, y);
     }
@@ -67,6 +71,7 @@ class grid {
         set(x, y, value);
     }
 
+    [[nodiscard]]
     cpu_grid_ptr clone_to_cpu_memory() const {
         auto [x_size_, y_size_] = logical();
         auto new_grid = std::make_unique<cpu_version_t>(x_size_, y_size_);

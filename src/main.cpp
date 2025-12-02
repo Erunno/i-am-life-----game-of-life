@@ -4,7 +4,6 @@
 
 #include "common/device.hpp"
 #include "grids/basic/grid.hpp"
-#include "grids/bit_packed/grid.hpp"
 #include "grids/common/border_policy.hpp"
 #include "kernels/basic/algorithm.hpp"
 #include "traverseres/cpu/basic.hpp"
