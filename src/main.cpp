@@ -19,13 +19,13 @@ using traverser_t = gol::traverseres::cpu::basic::traverser<grid_t, algorithm_t>
 int main() {
     std::cout << "Hello, World!" << std::endl;
 
-    int dim_x = 10, dim_y = 10;
-    int iters = 10;
+    const int dim_x = 10, dim_y = 10;
+    const int iters = 10;
 
     grid_t myGrid(dim_x, dim_y);
 
     // random initialization use random values
-    std::srand(std::time(nullptr));
+    std::srand(std::time(nullptr));  // TODO: use mersenne twister
 
     for (int y = 0; y < dim_y; ++y) {
         for (int x = 0; x < dim_x; ++x) {
