@@ -14,3 +14,4 @@ file(GLOB_RECURSE MY_SOURCES
 add_executable(GameOfLife ${MY_SOURCES})
 
 target_include_directories(GameOfLife PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_options(GameOfLife PRIVATE -Wall -Wextra -Wpedantic -Werror)
