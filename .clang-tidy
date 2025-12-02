@@ -1,6 +1,6 @@
 {
     Checks: '-*,performance-*,readability-*,modernize-*,cppcoreguidelines-*,bugprone-*,clang-analyzer-*,misc-*,-modernize-use-trailing-return-type,-readability-identifier-length,-bugprone-easily-swappable-parameters,-readability-math-missing-parentheses,-readability-else-after-return,-performance-avoid-endl,-readability-isolate-declaration',
-    WarningsAsErrors: '',
+    WarningsAsErrors: '*',
     HeaderFilterRegex: 'src/.*',
     FormatStyle:     file,
 }
