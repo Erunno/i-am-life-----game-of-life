@@ -28,10 +28,10 @@ class traverser {
 
     void run() {
         run_time_ms_ = timer_cpu::measure([&]() {
-            auto [width, height] = input_grid_->physical();
+            const auto [width, height] = input_grid_->physical();
 
-            cpu_grid_t* current = input_grid_.get();
-            cpu_grid_t* next = intermidiate_grid_.get();
+            auto current = input_grid_.get();
+            auto next = intermidiate_grid_.get();
 
             for (index_t iter = 0; iter < iterations_; ++iter) {
                 for (index_t y = 0; y < height; ++y) {
