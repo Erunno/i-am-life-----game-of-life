@@ -1,6 +1,5 @@
-#include <cstdlib>
-#include <ctime>
 #include <iostream>
+#include <random>
 
 #include "common/device.hpp"
 #include "grids/basic/grid.hpp"
@@ -24,11 +23,12 @@ int main() {
     grid_t myGrid(dim_x, dim_y);
 
     // random initialization use random values
-    std::srand(std::time(nullptr));  // TODO: use mersenne twister
+    std::mt19937 rng(std::random_device{}());
+    std::uniform_int_distribution<int> dist(0, 1);
 
     for (int y = 0; y < dim_y; ++y) {
         for (int x = 0; x < dim_x; ++x) {
-            myGrid.set(x, y, std::rand() % 2);  // Random pattern
+            myGrid.set(x, y, dist(rng));  // Random pattern
         }
     }
 
