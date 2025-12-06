@@ -12,4 +12,4 @@ fi
 
 # Run clang-tidy
 echo "Running clang-tidy with the checks defined in .clang-tidy..."
-find src \( -name '*.cpp' -o -name '*.hpp' \) -print0 | xargs -0 clang-tidy -p build
+find src \( -name '*.cpp' -o -name '*.hpp' \) -exec clang-tidy -p build {} +
